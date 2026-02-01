@@ -4,7 +4,7 @@ import requests
 from PIL import Image
 from openai import OpenAI
 
-API_KEY = r"sk-xxxx"  # Replace with your actual OpenAI API key
+API_KEY = r"sk-xxxx" 
 
 
 def prepare_mask(mask_path):

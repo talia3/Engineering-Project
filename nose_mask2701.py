@@ -346,8 +346,8 @@ if __name__ == "__main__":
     print()
     
     # CONFIGURE YOUR PATHS HERE
-    input_path = r"C:\Users\97258\project111Try\Engineering-Project\input_faces\DONE\WhatsApp Image 2026-01-28 at 11.18.38.jpeg"
-    output_path = r"C:\Users\97258\project1\Engineering-Project\tryOut"
+    input_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\input_faces\000017.jpg"
+    output_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\nose_masks"
     
     # ====================================
     

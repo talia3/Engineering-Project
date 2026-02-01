@@ -264,8 +264,8 @@ if __name__ == "__main__":
     print()
     2
     # CONFIGURE YOUR PATHS HERE
-    input_path = r"C:\Users\97258\project1\Engineering-Project\tryIn\000002.jpg"
-    output_path = r"C:\Users\97258\project1\Engineering-Project\tryOut"
+    input_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryIn\000002.jpg"
+    output_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryOut"
     
     # ====================================
     
