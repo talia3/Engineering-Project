@@ -2,6 +2,95 @@ import cv2
 import numpy as np
 import os
 
+
+def create_nose_mask(image_path, output_path):
+    print(f"Starting nose detection for: {os.path.basename(image_path)}")
+    
+    img = cv2.imread(image_path)
+    if img is None:
+        print(f"Error: Could not read image at {image_path}")
+        return False
+
+    height, width = img.shape[:2]
+    mask = np.ones((height, width), dtype=np.uint8) * 255
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # --- METHOD 1: MediaPipe (High Accuracy) ---
+    try:
+        from mediapipe.tasks.python.core.base_options import BaseOptions
+        from mediapipe.tasks.python.vision import FaceLandmarker, FaceLandmarkerOptions, RunningMode
+        from mediapipe.tasks.python.vision.core.image import Image, ImageFormat
+        
+        model_path = 'face_landmarker.task'
+        if os.path.exists(model_path):
+            base_options = BaseOptions(model_asset_path=model_path)
+            options = FaceLandmarkerOptions(base_options=base_options, running_mode=RunningMode.IMAGE, num_faces=1)
+            
+            with FaceLandmarker.create_from_options(options) as landmarker:
+                rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                mp_image = Image(image_format=ImageFormat.SRGB, data=rgb_image)
+                result = landmarker.detect(mp_image)
+                
+                if result.face_landmarks:
+                    print("Using MediaPipe landmarks...")
+                    # Nose landmarks in MediaPipe (478-point model)
+                    NOSE_INDICES = [1, 2, 98, 327, 168, 6, 197, 195, 5, 419, 248, 456, 129, 203, 358, 423, 49, 279, 64, 294, 131, 130, 362, 361, 399, 400, 5, 4, 45, 220, 275, 241, 60, 290, 136, 150, 160, 28, 29]
+                    points = []
+                    for idx in NOSE_INDICES:
+                        pt = result.face_landmarks[0][idx]
+                        points.append([int(pt.x * width), int(pt.y * height)])
+                    
+                    # Remove duplicates while preserving order
+                    seen = set()
+                    unique_points = []
+                    for pt in points:
+                        pt_tuple = tuple(pt)
+                        if pt_tuple not in seen:
+                            seen.add(pt_tuple)
+                            unique_points.append(pt)
+                    
+                    if unique_points:
+                        nose_points = np.array(unique_points, dtype=np.int32)
+                        hull = cv2.convexHull(nose_points)
+                        cv2.fillPoly(mask, [hull], 0)
+                        cv2.imwrite(output_path, mask)
+                        print(f"Success via MediaPipe: {output_path}")
+                        return True
+    except Exception as e:
+        print(f"MediaPipe Method skipped: {e}")
+
+    # --- METHOD 2: Haar Cascade (Fallback) ---
+    print("Trying Haar Cascade fallback...")
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    nose_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_mcs_nose.xml')
+    
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    
+    for (x, y, w, h) in faces:
+        # Define region of interest: middle of the face where nose is
+        nose_roi_y = int(y + (h * 0.3))
+        nose_roi_x = int(x + (w * 0.2))
+        nose_roi_h = int(h * 0.4)
+        nose_roi_w = int(w * 0.6)
+        
+        roi = gray[nose_roi_y:nose_roi_y+nose_roi_h, nose_roi_x:nose_roi_x+nose_roi_w]
+        
+        # Try to detect nose in the region
+        noses = nose_cascade.detectMultiScale(roi, 1.1, 3)
+        
+        if len(noses) > 0:
+            # Found noses, draw them
+            for (nx, ny, nw, nh) in noses:
+                cv2.ellipse(mask, (nose_roi_x + nx + nw//2, nose_roi_y + ny + nh//2), (nw//2, nh//2), 0, 0, 360, 0, -1)
+        else:
+            # Fallback: draw a region where nose typically is
+            cv2.ellipse(mask, (x + w//2, y + int(h * 0.5)), (w//5, int(h * 0.15)), 0, 0, 360, 0, -1)
+        
+    cv2.imwrite(output_path, mask)
+    print(f"Success via Haar Cascade Estimation: {output_path}")
+    return True
+
+
 def create_nose_mask_geometric(image_path, output_path='nose_mask.jpg'):
     """
     Creates nose mask using improved geometric estimation based on eyes.
@@ -316,38 +405,15 @@ def create_nose_mask_with_mediapipe(image_path, output_path='nose_mask.jpg'):
         return create_nose_mask_geometric(image_path, output_path)
 
 
-def create_nose_mask(image_path, output_path='nose_mask.jpg'):
-    """
-    Main function that tries different methods for nose detection.
-    """
-    print("Attempting nose detection with facial landmarks...")
-    
-    # Try MediaPipe first (easier to install and very accurate)
-    print("\n1. Trying MediaPipe Face Mesh...")
-    success = create_nose_mask_with_mediapipe(image_path, output_path)
-    
-    if success:
-        return True
-    
-    # Try dlib as fallback
-    print("\n2. Trying dlib facial landmarks...")
-    success = create_nose_mask_with_dlib(image_path, output_path)
-    
-    if success:
-        return True
-    
-    print("\nFailed to detect nose with facial landmarks.")
-    print("Please ensure you have MediaPipe or dlib installed.")
-    return False
+
 
 
 if __name__ == "__main__":
-    print("=== Accurate Nose Mask Generator (Facial Landmarks) ===")
+    print("=== Nose Mask Generator ===")
     print()
-    
     # CONFIGURE YOUR PATHS HERE
-    input_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\input_faces\000017.jpg"
-    output_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\nose_masks"
+    input_path = r"tryIn\000002.jpg"
+    output_path = r"tryOut"
     
     # ====================================
     
@@ -362,6 +428,7 @@ if __name__ == "__main__":
     
     # If output_path is a directory, create a default filename
     if os.path.isdir(output_path):
+        # Get the input filename without extension
         input_filename = os.path.splitext(os.path.basename(input_path))[0]
         output_path = os.path.join(output_path, f"{input_filename}_nose_mask.jpg")
         print(f"Output directory detected. Saving to: {output_path}")
@@ -374,12 +441,6 @@ if __name__ == "__main__":
     
     print()
     print("Processing...")
-    
-    success = create_nose_mask(input_path, output_path)
-    
-    if not success:
-        print("\nTo use this script, you need MediaPipe:")
-        print("  pip install mediapipe")
-        print("\nMediaPipe provides 478 facial landmarks for very accurate detection!")
+    create_nose_mask(input_path, output_path)
     
     print("\nDone!")

@@ -2,9 +2,6 @@ import cv2
 import numpy as np
 import os
 
-import cv2
-import numpy as np
-import os
 
 def create_lips_mask(image_path, output_path):
     print(f"Starting lip detection for: {os.path.basename(image_path)}")
@@ -20,16 +17,18 @@ def create_lips_mask(image_path, output_path):
 
     # --- METHOD 1: MediaPipe (High Accuracy) ---
     try:
-        from mediapipe.tasks import python
-        from mediapipe.tasks.python import vision
+        from mediapipe.tasks.python.core.base_options import BaseOptions
+        from mediapipe.tasks.python.vision import FaceLandmarker, FaceLandmarkerOptions, RunningMode
+        from mediapipe.tasks.python.vision.core.image import Image, ImageFormat
         
         model_path = 'face_landmarker.task'
         if os.path.exists(model_path):
-            base_options = python.BaseOptions(model_asset_path=model_path)
-            options = vision.FaceLandmarkerOptions(base_options=base_options, num_faces=1)
+            base_options = BaseOptions(model_asset_path=model_path)
+            options = FaceLandmarkerOptions(base_options=base_options, running_mode=RunningMode.IMAGE, num_faces=1)
             
-            with vision.FaceLandmarker.create_from_options(options) as landmarker:
-                mp_image = python.Image(image_format=python.ImageFormat.SRGB, data=cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            with FaceLandmarker.create_from_options(options) as landmarker:
+                rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                mp_image = Image(image_format=ImageFormat.SRGB, data=rgb_image)
                 result = landmarker.detect(mp_image)
                 
                 if result.face_landmarks:
@@ -73,10 +72,9 @@ def create_lips_mask(image_path, output_path):
 if __name__ == "__main__":
     print("=== lips Mask Generator ===")
     print()
-    2
     # CONFIGURE YOUR PATHS HERE
-    input_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryIn\000002.jpg"
-    output_path = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryOut"
+    input_path = r"tryIn\000002.jpg"
+    output_path = r"tryOut"
     
     # ====================================
     

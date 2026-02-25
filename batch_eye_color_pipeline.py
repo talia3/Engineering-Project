@@ -3,11 +3,11 @@ from final_create_mask_on_eye import create_mask  # פונקציה שיוצרת 
 from change_eye_color import change_eye_color    # פונקציה שמשנה צבע עיניים
 
 # ====== SETTINGS ======
-INPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\input_faces"
-OUTPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\output_faces_change_eye_color"
-MASK_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\eye_masks"
+INPUT_FOLDER = r"C:\Users\97258\engineering_try_2\Engineering-Project\input_faces\done_eye_color\try_again"
+OUTPUT_FOLDER = r"output_faces_change_eye_color"
+MASK_FOLDER = r"eye_masks"
 #1-12:
-#NEW_EYE_COLOR = "bright natural blue eyes"
+#NEW_EYE_COLOR = "bright natural blue or green eyes"
 #13-20:
 #NEW_EYE_COLOR = "bright natural blue or green eyes"
 #21-28:

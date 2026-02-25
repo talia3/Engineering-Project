@@ -4,11 +4,11 @@ from PIL import Image
 import os
 
 # ============= CONFIGURATION =============
-API_KEY = r"sk-xxxx"  # שים כאן את ה-API key שלך מ-OpenAI
-IMAGE_PATH = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryIn\000002.jpg"
-MASK_PATH = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryOut\000002_eyebrows_mask.jpg"
+API_KEY = r"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"
+IMAGE_PATH = r"tryIn\000002.jpg"
+MASK_PATH = r"tryOut\000002_eyebrows_mask.jpg"
 NEW_STYLE = "thick black eyebrows" 
-OUTPUT_PATH = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\tryOut\000002_edited_eyebrows.png"
+OUTPUT_PATH = r"tryOut\000002_edited_eyebrows.png"
 # =========================================
 
 def prepare_eyebrow_mask(mask_path):

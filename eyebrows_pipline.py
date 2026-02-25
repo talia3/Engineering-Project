@@ -1,11 +1,11 @@
 import os
-from eyebrow_mask import create_eyebrows_mask  # פונקציה שיוצרת מסכה
+from eyebrow_mask import create_eyebrow_mask_mediapipe  # פונקציה שיוצרת מסכה
 from change_eyebrows import change_eyebrow_style    # פונקציה שמשנה צבע שפתיים
 
 # ====== SETTINGS ======
-INPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\input_faces"
-OUTPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\output_faces_change_eyebrows"
-MASK_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\eyebrow_masks"
+INPUT_FOLDER = r"input_faces"
+OUTPUT_FOLDER = r"output_faces_change_eyebrows"
+MASK_FOLDER = r"eyebrow_masks"
 NEW_EYEBROW_STYLE = "thick black eyebrows"
 # ======================
 
@@ -16,7 +16,7 @@ os.makedirs(MASK_FOLDER, exist_ok=True)
 
 
 def process_all_images():
-    print("\n🚀 Starting batch lip color pipeline...\n")
+    print("\n🚀 Starting batch eyebrows pipeline...\n")
 
     images = [f for f in os.listdir(INPUT_FOLDER) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
@@ -33,7 +33,7 @@ def process_all_images():
             # ===== 1. CREATE MASK =====
             mask_output_path = os.path.join(MASK_FOLDER, img_name.split('.')[0] + "_eyebrows_mask.png")
             print("Creating eyebrows mask...")
-            create_eyebrows_mask(input_path, mask_output_path)
+            create_eyebrow_mask_mediapipe(input_path, mask_output_path)
 
             # ===== 2. CHANGE LIP COLOR =====
             edited_output_path = os.path.join(OUTPUT_FOLDER, img_name.split('.')[0] + "_eyebrows_edited.png")

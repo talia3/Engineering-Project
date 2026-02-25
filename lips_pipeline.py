@@ -3,10 +3,11 @@ from lips_mask import create_lips_mask  # פונקציה שיוצרת מסכה
 from change_lips_color import change_lip_color    # פונקציה שמשנה צבע שפתיים
 
 # ====== SETTINGS ======
-INPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\input_faces"
-OUTPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\output_faces_change_lip_color"
-MASK_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\lip_masks"
-NEW_LIP_COLOR = "matte pink lipstick"
+INPUT_FOLDER = r"input_faces"
+OUTPUT_FOLDER = r"output_faces_change_lip_color"
+MASK_FOLDER = r"lip_masks"
+NEW_LIP_COLOR = "Change only the lip color to matte soft pink lipstick. Keep the skin tone, lighting, texture and natural shadows unchanged. Make it realistic and blended naturally."
+
 # ======================
 
 # צור תיקיות אם לא קיימות

@@ -3,9 +3,9 @@ from nose_mask2701 import create_nose_mask  # פונקציה שיוצרת מסכ
 from change_nose import change_nose    # פונקציה שמשנה צבע עיניים
 
 # ====== SETTINGS ======
-INPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\input_faces"
-OUTPUT_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\output_faces_change_nose"
-MASK_FOLDER = r"C:\Users\halev\OneDrive\university\engineering_project\Engineering-Project\nose_masks"
+INPUT_FOLDER = r"input_faces"
+OUTPUT_FOLDER = r"output_faces_change_nose"
+MASK_FOLDER = r"nose_masks"
 # ======================
 
 # צור תיקיות אם לא קיימות
