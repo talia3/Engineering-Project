@@ -1,3 +1,4 @@
+
 import os
 import cv2
 import numpy as np
@@ -189,4 +190,5 @@ print("\nAccuracy:",accuracy)
 
 print("\nClassification Report:\n")
 
+>>>>>>> 71bc501b949665ce8ef1265391198db4273b1fbb
 print(classification_report(y_test,y_pred,target_names=CATEGORIES))

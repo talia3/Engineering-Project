@@ -126,5 +126,11 @@ if len(X) > 0:
     
     print("\nConfusion Matrix:")
     print(confusion_matrix(y_test, y_pred))
+    import joblib
+
+    joblib.dump(model, "svm_model.pkl")
+    joblib.dump(scaler, "scaler.pkl")
+
+    print("Model saved!")
 else:
     print("No images found!")

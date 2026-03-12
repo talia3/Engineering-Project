@@ -2,7 +2,7 @@ import cv2
 import os
 
 # ===== נתיבים =====
-folder_path = r"C:\Users\97258\engineering_try_2\Engineering-Project\output_faces_change_eye_color"
+folder_path = r"C:\Users\97258\engineering_try_2\Engineering-Project\input_faces"
 reference_image_path = r"C:\Users\97258\engineering_try_2\Engineering-Project\tryIn\000001.jpg"
 
 image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp')

@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
@@ -76,3 +77,7 @@ else:
 
     print("\nConfusion Matrix:")
     print(confusion_matrix(y_test, y_pred))
+    
+    # Save the trained model
+    joblib.dump(rf_model, "random_forest_model.pkl")
+    print("\n✓ Model saved as 'random_forest_model.pkl'")

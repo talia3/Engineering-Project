@@ -1,10 +1,11 @@
+
 import cv2
 import os
 import numpy as np
 
 # Settings
-INPUT_FOLDER = r"C:\Users\97258\engineering_try_2\Engineering-Project\output_faces_change_lip_color"
-OUTPUT_FOLDER = r"C:\Users\97258\engineering_try_2\Engineering-Project\output_faces_change_lip_color_no_padding"
+INPUT_FOLDER = r"C:\Users\97258\engineering_try_2\Engineering-Project\output_faces_change_eye_color"
+OUTPUT_FOLDER = r"C:\Users\97258\engineering_try_2\Engineering-Project\output_faces_change_eye_color"
 
 # Create output folder
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
